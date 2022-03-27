@@ -1,4 +1,6 @@
-import LongLatInput from "./web/components/ui/longLatInput"
+
+import QueryForm from "./web/forms/queryForm";
+import Preamble from "./web/components/preamble";
 declare var require: any
 
 var React = require('react');
@@ -7,8 +9,10 @@ var ReactDOM = require('react-dom');
 export class Hello extends React.Component {
     render() {
         return (
-
-            <LongLatInput/>
+            <div>
+                <Preamble/>
+                <QueryForm />
+            </div>
         );
     }
 }

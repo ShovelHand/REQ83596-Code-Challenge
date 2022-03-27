@@ -1,17 +1,24 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { useState } from "react";
 
-class LongLatInput extends React.Component<{}> {
-    render() {
-        return (
+
+interface Lables {
+    label: string;
+}
+
+const LongLatInput: React.Component<Lables> = (props) => {
+    const[value, setValue] = useState<any>("");
+
+    const { label } = props;
+    return (
             <div>
-                <h3>A Simple React Component Example with Typescript</h3>
-
-                <p>This component shows the Logrocket logo.</p>
-                <p>For more info on Logrocket, please visit https://logrocket.com </p>
+                <label>
+                {label}:
+                    <input type="text" value={value} /*onChange={this.handleChange}*/ />
+                </label>
             </div>
         );
-    }
+    
 }
 
 export default LongLatInput;
