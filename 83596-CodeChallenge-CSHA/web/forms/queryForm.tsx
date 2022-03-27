@@ -1,58 +1,6 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-
-//import LongLatInput from "../components/ui/longLatInput";
 import { useState } from "react";
 
-//class QueryForm extends React.Component < {} > {
-//    constructor(props) {
-//        super(props);
-//     //   this.state = { value: '' };
-//        this.handleSubmit = this.handleSubmit.bind(this);
-        
-//    }
-//    const[longVal, setLong] = useState("");
-//    const[latVal, setLat] = useState("");
-//    handleSubmit(event) {
-//        event.preventDefault();
-//        const url: string = "https://";
-//        const xhr = new XMLHttpRequest();
-//        xhr.open('post', url, true);
-//        xhr.onreadystatechange = () => {
-//            switch (xhr.status) {
-//                case 200:
-//                    break;
-//                case 400:
-//                    console.error(xhr.responseText);
-//                    break;
-//            }
-//        }
-//        xhr.onload = () => {
-
-//        }
-//        xhr.send();
-//    }
-
-//    render() {
-//        return (
-//            <form onSubmit={this.handleSubmit}>
-//                <div>
-//                    <label>
-//                        Longitude:
-//                        <input type="text" value={longVal} /*onChange={this.handleChange}*/ />
-//                    </label>
-//                </div>
-//                <div>
-//                    <label>
-//                        Latitude:
-//                        <input type="text" value={latVal} /*onChange={this.handleChange}*/ />
-//                    </label>
-//                </div>
-//                <input type="submit" value="Submit" />
-//            </form>
-//        );
-//    }
-//}
 const QueryForm: React.FC<any> = ({
 
 }: any) => {
@@ -61,22 +9,24 @@ const QueryForm: React.FC<any> = ({
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${longVal}+${latVal}))&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson`;
         //const url: string = "https://";
-        //const xhr = new XMLHttpRequest();
-        //xhr.open('post', url, true);
-        //xhr.onreadystatechange = () => {
-        //    switch (xhr.status) {
-        //        case 200:
-        //            break;
-        //        case 400:
-        //            console.error(xhr.responseText);
-        //            break;
-        //    }
-        //}
-        //xhr.onload = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('post', url, true);
+        xhr.onreadystatechange = () => {
+            switch (xhr.status) {
+                case 200:
+                    console.log(xhr.responseText);
+                    break;
+                case 400:
+                    console.error(xhr.responseText);
+                    break;
+            }
+        }
+        xhr.onload = () => {
 
-        //}
-        //xhr.send();
+        }
+        xhr.send();
         console.log("form submit: " + longVal + " " + latVal);
     }
 
@@ -84,18 +34,18 @@ const QueryForm: React.FC<any> = ({
         <form onSubmit={handleSubmit}>
             <div>
                 <label>
-                    Longitude:
-                    <input type="text" value={longVal || ''} onChange={(e) => {
-                        setLong(e.target.value);
+                    Latitude:
+                    <input type="number" value={latVal || ''} onChange={(e) => {
+                        setLat(e.target.value);
                     }
                     } />
                 </label>
             </div>
             <div>
                 <label>
-                    Latitude:
-                    <input type="text" value={latVal || ''} onChange={(e) => {
-                        setLat(e.target.value);
+                    Longitude:
+                    <input type="number" value={longVal || ''} onChange={(e) => {
+                        setLong(e.target.value);
                     }
                     } />
                 </label>
