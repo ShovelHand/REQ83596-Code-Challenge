@@ -14,15 +14,20 @@ const Main: React.FC<any> = ({
 
 }: any) => {
     const [report, setReport] = useState<string>("");
+    const [name, setName] = useState<string>("");
 
-    const displayQueryResult = (queryresult) => {
-        console.log(queryresult);
+    const displayQueryResult = (queryResult) => {
+        if (queryResult) {
+            const data = JSON.parse(queryResult);
+            setName(data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME);
+        }
     }
+
         return (
             <div>
                 <Preamble />
                 <QueryForm reportCallback={displayQueryResult} />
-                <NameReport/>
+                <NameReport nameValue={report}/>
             </div>
         );
     

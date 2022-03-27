@@ -1,13 +1,23 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const NameReport: React.FC<any> = ({
 
-}: any) => {
+export interface Props {
+    reportData: string;
+}
+
+const NameReport: React.FC<any> = (props) => {
+    const [nameValue, setValue] = useState<string>("")
+    useEffect(() => {
+
+        console.log("detected");
+        
+
+    }, [nameValue])
 
     return (
         <div>
-            ShovelHand is cool and attractive
+          
         </div>
   );
 

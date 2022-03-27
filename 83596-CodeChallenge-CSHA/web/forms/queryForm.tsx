@@ -5,14 +5,14 @@ interface Lables {
     reportCallback;
 }
 
-const QueryForm: React.FC<any> = (props) => {
+const QueryForm: React.FC<any> = ({reportCallback}) => {
     const [latVal, setLat] = useState<any>("48.45862773341286");
     const [longVal, setLong] = useState<string>("-123.36126294595441");
 
     const onReceive = (data: string) => {
-        props.reportCallback(data);
-        
+        reportCallback(data);   
     }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?

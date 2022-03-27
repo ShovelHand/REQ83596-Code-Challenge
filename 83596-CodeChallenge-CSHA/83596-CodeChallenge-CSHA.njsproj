@@ -51,7 +51,6 @@
     <Folder Include="dist\" />
     <Folder Include="web\" />
     <Folder Include="web\components\" />
-    <Folder Include="web\components\ui\" />
     <Folder Include="web\forms\" />
   </ItemGroup>
   <ItemGroup>
@@ -62,9 +61,6 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\components\preamble.tsx">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="web\components\ui\LongLatInput.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\forms\queryForm.tsx">
