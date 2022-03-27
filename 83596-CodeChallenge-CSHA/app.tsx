@@ -27,7 +27,7 @@ const Main: React.FC<any> = ({
             <div>
                 <Preamble />
                 <QueryForm reportCallback={displayQueryResult} />
-                <NameReport nameValue={report}/>
+                <NameReport reportData={name}/>
             </div>
         );
     

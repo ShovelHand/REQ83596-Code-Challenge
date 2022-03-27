@@ -17,7 +17,10 @@ const NameReport: React.FC<any> = (props) => {
 
     return (
         <div>
-          
+            {props.reportData ? (<p>These coordinates fall within the <strong>{props.reportData}</strong> Community Health Service Area</p>
+            ) : (
+                <p>Submit coordinates within Greater Victoria to see the corresponding Community Health Service Area.)</p>)
+            }
         </div>
   );
 
