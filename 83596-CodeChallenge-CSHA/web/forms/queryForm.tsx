@@ -1,25 +1,35 @@
 import * as React from "react";
 import { useState } from "react";
 
-const QueryForm: React.FC<any> = ({
+interface Lables {
+    reportCallback;
+}
 
-}: any) => {
-    const [longVal, setLong] = useState<string>("");
-    const [latVal, setLat] = useState<any>("");
+const QueryForm: React.FC<any> = (props) => {
+    const [latVal, setLat] = useState<any>("48.45862773341286");
+    const [longVal, setLong] = useState<string>("-123.36126294595441");
 
+    const onReceive = (data: string) => {
+        props.reportCallback(data);
+        
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${longVal}+${latVal}))&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson`;
+        const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?
+service=WFS&version=1.0.0
+&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326
+&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${longVal}+${latVal}))
+&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson`;
         //const url: string = "https://";
         const xhr = new XMLHttpRequest();
         xhr.open('post', url, true);
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    console.log(xhr.responseText);
+                    onReceive(xhr.response);
                     break;
                 case 400:
-                    console.error(xhr.responseText);
+       
                     break;
             }
         }

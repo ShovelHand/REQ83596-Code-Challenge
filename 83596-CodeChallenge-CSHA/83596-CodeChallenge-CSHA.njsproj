@@ -58,6 +58,9 @@
     <TypeScriptCompile Include="app.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="web\components\nameReport.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="web\components\preamble.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
