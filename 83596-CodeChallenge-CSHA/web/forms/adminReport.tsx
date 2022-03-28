@@ -1,8 +1,11 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const AdminReport: React.FC<any> = ({}) => {
-    
+export interface Props {
+    reportData: string;
+}
+
+const AdminReport: React.FC<any> = (props) => {
     const getAdminReport = (event) => {
         event.preventDefault();
         const url: string = `/logging`;
@@ -11,7 +14,7 @@ const AdminReport: React.FC<any> = ({}) => {
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    console.log(xhr.response);
+                    props.reportData = (xhr.response);
                     break;
                 case 400:
                     console.error(xhr.response);

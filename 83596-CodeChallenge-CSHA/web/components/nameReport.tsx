@@ -7,11 +7,6 @@ export interface Props {
 }
 
 const NameReport: React.FC<any> = (props) => {
-    const [nameValue, setValue] = useState<string>("")
-    useEffect(() => {
-
-    }, [nameValue])
-
     return (
         <div>
             {props.reportData ? (<p>These coordinates fall within the <strong>{props.reportData}</strong> Community Health Service Area</p>
