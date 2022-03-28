@@ -20,7 +20,6 @@ service=WFS&version=1.0.0
 &request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326
 &cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${longVal}+${latVal}))
 &propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson`;
-        //const url: string = "https://";
         const xhr = new XMLHttpRequest();
         xhr.open('post', url, true);
         xhr.onreadystatechange = () => {
@@ -29,7 +28,7 @@ service=WFS&version=1.0.0
                     onReceive(xhr.response);
                     break;
                 case 400:
-       
+                    console.error(xhr.response);
                     break;
             }
         }
@@ -60,7 +59,7 @@ service=WFS&version=1.0.0
                     } />
                 </label>
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Find Name" />
         </form>
     );
  }

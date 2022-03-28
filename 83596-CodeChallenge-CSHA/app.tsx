@@ -2,6 +2,7 @@
 import QueryForm from "./web/forms/queryForm";
 import Preamble from "./web/components/preamble";
 import NameReport from "./web/components/nameReport";
+import AdminReport from "./web/forms/adminReport";
 import * as React from "react";
 import { useState } from "react";
 
@@ -46,6 +47,7 @@ const Main: React.FC<any> = ({
                 <Preamble />
                 <QueryForm reportCallback={displayQueryResult} />
                 <NameReport reportData={name}/>
+                <AdminReport/>
             </div>
         );
     

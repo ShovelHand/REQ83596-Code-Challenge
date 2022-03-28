@@ -99,6 +99,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var queryForm_1 = __webpack_require__(/*! ./web/forms/queryForm */ "./web/forms/queryForm.tsx");
 var preamble_1 = __webpack_require__(/*! ./web/components/preamble */ "./web/components/preamble.tsx");
 var nameReport_1 = __webpack_require__(/*! ./web/components/nameReport */ "./web/components/nameReport.tsx");
+var adminReport_1 = __webpack_require__(/*! ./web/forms/adminReport */ "./web/forms/adminReport.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -129,7 +130,8 @@ var Main = function (_a) {
     return (React.createElement("div", null,
         React.createElement(preamble_1.default, null),
         React.createElement(queryForm_1.default, { reportCallback: displayQueryResult }),
-        React.createElement(nameReport_1.default, { reportData: name })));
+        React.createElement(nameReport_1.default, { reportData: name }),
+        React.createElement(adminReport_1.default, null)));
 };
 ReactDOM.render(React.createElement(Main, null), document.getElementById('root'));
 
@@ -28735,6 +28737,47 @@ exports.default = Preamble;
 
 /***/ }),
 
+/***/ "./web/forms/adminReport.tsx":
+/*!***********************************!*\
+  !*** ./web/forms/adminReport.tsx ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var AdminReport = function (_a) {
+    var getAdminReport = function (event) {
+        event.preventDefault();
+        var url = "/logging";
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', url, true);
+        xhr.onreadystatechange = function () {
+            switch (xhr.status) {
+                case 200:
+                    console.log(xhr.response);
+                    break;
+                case 400:
+                    console.error(xhr.response);
+                    break;
+            }
+        };
+        xhr.onload = function () {
+        };
+        xhr.send();
+    };
+    return (React.createElement("form", { onSubmit: getAdminReport },
+        React.createElement("h3", null, "Admin Section"),
+        React.createElement("p", null, "Are you an admin? Honour system! Click the button to get a report."),
+        React.createElement("input", { type: "submit", value: "Find Name" })));
+};
+exports.default = AdminReport;
+
+
+/***/ }),
+
 /***/ "./web/forms/queryForm.tsx":
 /*!*********************************!*\
   !*** ./web/forms/queryForm.tsx ***!
@@ -28757,7 +28800,6 @@ var QueryForm = function (_a) {
     var handleSubmit = function (event) {
         event.preventDefault();
         var url = "https://openmaps.gov.bc.ca/geo/pub/ows?\nservice=WFS&version=1.0.0\n&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326\n&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(" + longVal + "+" + latVal + "))\n&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson";
-        //const url: string = "https://";
         var xhr = new XMLHttpRequest();
         xhr.open('post', url, true);
         xhr.onreadystatechange = function () {
@@ -28766,6 +28808,7 @@ var QueryForm = function (_a) {
                     onReceive(xhr.response);
                     break;
                 case 400:
+                    console.error(xhr.response);
                     break;
             }
         };
@@ -28787,7 +28830,7 @@ var QueryForm = function (_a) {
                 React.createElement("input", { type: "number", value: longVal || '', onChange: function (e) {
                         setLong(e.target.value);
                     } }))),
-        React.createElement("input", { type: "submit", value: "Submit" })));
+        React.createElement("input", { type: "submit", value: "Find Name" })));
 };
 exports.default = QueryForm;
 
