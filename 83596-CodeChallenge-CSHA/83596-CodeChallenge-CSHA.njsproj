@@ -49,12 +49,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="controllers\" />
     <Folder Include="web\" />
     <Folder Include="web\components\" />
     <Folder Include="web\forms\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="controllers\loggingController.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\components\nameReport.tsx">

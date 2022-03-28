@@ -3,11 +3,11 @@
 var path = require('path');
 var express = require('express');
 
-
 var app = express();
 
 var staticPath = path.join(__dirname, '/');
 app.use(express.static(staticPath));
+
 
 // Allows you to set port in the project properties.
 app.set('port', process.env.PORT || 3000);
@@ -16,34 +16,55 @@ var server = app.listen(app.get('port'), function () {
     console.log('listening');
 });
 
-var frontEndAccessCount = 0;
-var lastFiveNames = [];
+app.get("/logging", (req, res) => {
+    res.send("Hi!");
+});
+app.post("/logging", (req, res) => {
+    const url = 'mongodb://127.0.0.1:27017';
+    MongoClient.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, (err, client) => {
+        if (err) {
+            return console.log(err);
+        }
+
+        // Specify database you want to access
+        const db = client.db('CodeChallenge');
+        const name: string = req.query.name;
+        const logs = db.collection('CHSANames');
+      
+        logs.updateOne({
+            _id: 1
+        }, {
+            $inc: {
+                timesAccessed: 1
+            }
+        })
+    });
+    
+
+});
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
+
+
 async function main() {
-    const uri = "mongodb+srv://REQ83596:iAWNYzSN4JKW8zqW@alexc-codechallenge.3o4eg.mongodb.net/sample_airbnb?retryWrites=true&w=majority";
-    const client = new MongoClient(uri);
+    const url = 'mongodb://127.0.0.1:27017';
+    MongoClient.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, (err, client) => {
+        if (err) {
+            return console.log(err);
+        }
 
-    try {
-        // Connect to the MongoDB cluster
-       await client.connect();
+        // Specify database you want to access
+        const db = client.db('school');
 
-        // Make the appropriate DB calls
-        await listDatabases(client);
-
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+        console.log(`MongoDB Connected: ${url}`);
+    });
 }
-
-async function listDatabases(client) {
-    databasesList = await client.db().admin().listDatabases();
-
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
-};
 
 main().catch(console.error);

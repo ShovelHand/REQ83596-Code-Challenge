@@ -20,6 +20,24 @@ const Main: React.FC<any> = ({
         if (queryResult) {
             const data = JSON.parse(queryResult);
             setName(data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME);
+
+            const url = "/logging?name=" + data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME;
+            const xhr = new XMLHttpRequest();
+            xhr.open('post', url, true);
+            xhr.onreadystatechange = () => {
+                switch (xhr.status) {
+                    case 200:
+                        
+                        break;
+                    case 400:
+
+                        break;
+                }
+            }
+            xhr.onload = () => {
+
+            }
+            xhr.send();
         }
     }
 
