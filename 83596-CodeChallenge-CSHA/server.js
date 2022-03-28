@@ -31,7 +31,7 @@ app.post("/logging", (req, res) => {
 
         // Specify database you want to access
         const db = client.db('CodeChallenge');
-        const name: string = req.query.name;
+        const name = req.query.name;
         const logs = db.collection('CHSANames');
       
         logs.updateOne({
