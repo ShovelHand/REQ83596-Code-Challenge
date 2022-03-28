@@ -3,12 +3,18 @@ import { useState, useEffect } from "react";
 import { isPropertySignature } from "typescript";
 
 export interface Props {
-    totalCount: number;
+    totalCount: any;
     lastFiveNames: any;
 }
 
 const AdminReport: React.FC<any> = (props) => {
+    const [submitting, setSubmitting] = useState(false);
+
     const getAdminReport = (event) => {
+        if (submitting) {
+            return;
+        }
+        setSubmitting(true);
         event.preventDefault();
         const url: string = `/logging`;
         const xhr = new XMLHttpRequest();
@@ -16,9 +22,7 @@ const AdminReport: React.FC<any> = (props) => {
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    const responseObj = JSON.parse(xhr.response);
-                    props.totalCount = parseInt(responseObj.count);
-                    props.lastFiveNames = responseObj.lastFiveNames;
+                    
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -26,9 +30,14 @@ const AdminReport: React.FC<any> = (props) => {
             }
         }
         xhr.onload = () => {
-
+            var responseObj = (xhr.response);
+            props.totalCount = (responseObj.count);
+            props.lastFiveNames = responseObj.lastFiveNames;
         }
         xhr.send();
+        setTimeout(() => {
+            setSubmitting(false);
+        }, 500)
     }
 
     return(

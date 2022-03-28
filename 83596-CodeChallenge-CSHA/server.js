@@ -36,7 +36,7 @@ var server = app.listen(app.get('port'), function () {
 });
 
 app.get("/logging", (req, res) => {
-    var data = "{count: " + totalNames.toString() + " lastFiveNames: " + lastFiveNames + "}";
+    var data = `{"count": "${totalNames}", "lastFiveNames": "${lastFiveNames}"}`;
     return res.send(data);
 });
 

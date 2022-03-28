@@ -30,7 +30,7 @@ service=WFS&version=1.0.0
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    onReceive(xhr.response);
+                    
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -38,7 +38,7 @@ service=WFS&version=1.0.0
             }
         }
         xhr.onload = () => {
-
+            onReceive(xhr.response);
         }
         xhr.send();
         setTimeout(() => {
