@@ -8,6 +8,7 @@ interface Lables {
 const QueryForm: React.FC<any> = ({reportCallback}) => {
     const [latVal, setLat] = useState<any>("48.45862773341286");
     const [longVal, setLong] = useState<string>("-123.36126294595441");
+    const [submitting, setSubmitting] = useState(false);
 
     const onReceive = (data: string) => {
         reportCallback(data);   
@@ -15,6 +16,10 @@ const QueryForm: React.FC<any> = ({reportCallback}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (submitting) {
+            return;
+        }
+        setSubmitting(true);
         const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?
 service=WFS&version=1.0.0
 &request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326
@@ -36,7 +41,9 @@ service=WFS&version=1.0.0
 
         }
         xhr.send();
-        console.log("form submit: " + longVal + " " + latVal);
+        setTimeout(() => {
+            setSubmitting(false);
+        }, 500)
     }
 
     return (

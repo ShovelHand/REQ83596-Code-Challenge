@@ -63,6 +63,7 @@
     <TypeScriptCompile Include="web\components\preamble.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="web\forms\adminReport.tsx" />
     <TypeScriptCompile Include="web\forms\queryForm.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>

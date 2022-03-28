@@ -11,12 +11,12 @@ app.use(express.static(staticPath));
 var totalNames = 0;
 var lastFiveNames = [];
 
-const statsUpdats = (name) => {
+const statsUpdates = (name) => {
     var newNameList = [name];
     var count = 0;
     totalNames++;
     
-    for(regionName in lastFiveNames){
+    for(var regionName in lastFiveNames){
         count++;
         newNameList.push(regionName);
         if(count >= 4){
@@ -36,26 +36,28 @@ var server = app.listen(app.get('port'), function () {
 });
 
 app.get("/logging", (req, res) => {
-    res.send("count: " + totalNames + "lastFiveNames: " +lastFiveNamess);
+    var data = "count: " + totalNames.toString() + " lastFiveNames: " + lastFiveNames;
+    return res.send(data);
 });
 
 app.post("/logging", (req, res) => {
-    const url = 'mongodb://127.0.0.1:27017';
-    MongoClient.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }, (err, client) => {
-        if (err) {
-            return console.log(err);
-        }
+    //const url = 'mongodb://127.0.0.1:27017';
+    //MongoClient.connect(url, {
+    //    useNewUrlParser: true,
+    //    useUnifiedTopology: true
+    //}, (err, client) => {
+    //    if (err) {
+    //        return console.log(err);
+    //    }
 
         // Specify database you want to access
     //    const db = client.db('CodeChallenge');
     //    const logs = db.collection('CHSANames');
+  //  logs.insertOne({ name });
         const name = req.query.name;
-      
-        logs.insertOne({ name });
-    });
+        statsUpdates(name);
+    return res.status;
+  //  });
     
 
 });

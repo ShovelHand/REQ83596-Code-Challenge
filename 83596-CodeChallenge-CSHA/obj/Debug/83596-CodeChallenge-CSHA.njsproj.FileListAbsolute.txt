@@ -1,6 +1,5 @@
 C:\Users\carmi\source\repos\83596-CodeChallenge-CSHA\83596-CodeChallenge-CSHA\obj\Debug\83596-CodeChallenge-CSHA.njsproj.AssemblyReference.cache
 C:\Users\carmi\source\repos\83596-CodeChallenge-CSHA\83596-CodeChallenge-CSHA\obj\Debug\83596-CodeChallenge-CSHA.njsproj.CoreCompileInputs.cache
 C:\Users\carmi\source\repos\83596-CodeChallenge-CSHA\83596-CodeChallenge-CSHA\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\carmi\source\repos\REQ83596-Code-Challenge\83596-CodeChallenge-CSHA\obj\Debug\83596-CodeChallenge-CSHA.njsproj.AssemblyReference.cache
 C:\Users\carmi\source\repos\REQ83596-Code-Challenge\83596-CodeChallenge-CSHA\obj\Debug\83596-CodeChallenge-CSHA.njsproj.CoreCompileInputs.cache
 C:\Users\carmi\source\repos\REQ83596-Code-Challenge\83596-CodeChallenge-CSHA\bin\Microsoft.NodejsTools.WebRole.dll

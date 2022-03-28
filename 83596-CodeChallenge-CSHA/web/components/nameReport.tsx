@@ -10,9 +10,6 @@ const NameReport: React.FC<any> = (props) => {
     const [nameValue, setValue] = useState<string>("")
     useEffect(() => {
 
-        console.log("detected");
-        
-
     }, [nameValue])
 
     return (
