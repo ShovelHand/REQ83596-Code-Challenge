@@ -8,6 +8,25 @@ var app = express();
 var staticPath = path.join(__dirname, '/');
 app.use(express.static(staticPath));
 
+var totalNames = 0;
+var lastFiveNames = [];
+
+const statsUpdats = (name) => {
+    var newNameList = [name];
+    var count = 0;
+    totalNames++;
+    
+    for(regionName in lastFiveNames){
+        count++;
+        newNameList.push(regionName);
+        if(count >= 4){
+            break;
+        }
+    }
+
+    lastFiveNames = newNameList;
+
+}
 
 // Allows you to set port in the project properties.
 app.set('port', process.env.PORT || 3000);
@@ -17,8 +36,9 @@ var server = app.listen(app.get('port'), function () {
 });
 
 app.get("/logging", (req, res) => {
-    res.send("Hi!");
+    res.send("count: " + totalNames + "lastFiveNames: " +lastFiveNamess);
 });
+
 app.post("/logging", (req, res) => {
     const url = 'mongodb://127.0.0.1:27017';
     MongoClient.connect(url, {
@@ -30,17 +50,11 @@ app.post("/logging", (req, res) => {
         }
 
         // Specify database you want to access
-        const db = client.db('CodeChallenge');
+    //    const db = client.db('CodeChallenge');
+    //    const logs = db.collection('CHSANames');
         const name = req.query.name;
-        const logs = db.collection('CHSANames');
       
-        logs.updateOne({
-            _id: 1
-        }, {
-            $inc: {
-                timesAccessed: 1
-            }
-        })
+        logs.insertOne({ name });
     });
     
 

@@ -95,38 +95,43 @@
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Hello = void 0;
-var longLatInput_1 = __webpack_require__(/*! ./web/components/ui/longLatInput */ "./web/components/ui/longLatInput.tsx");
+var queryForm_1 = __webpack_require__(/*! ./web/forms/queryForm */ "./web/forms/queryForm.tsx");
+var preamble_1 = __webpack_require__(/*! ./web/components/preamble */ "./web/components/preamble.tsx");
+var nameReport_1 = __webpack_require__(/*! ./web/components/nameReport */ "./web/components/nameReport.tsx");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Hello.prototype.render = function () {
-        return (React.createElement(longLatInput_1.default, null));
+var Main = function (_a) {
+    var _b = react_1.useState(""), report = _b[0], setReport = _b[1];
+    var _c = react_1.useState(""), name = _c[0], setName = _c[1];
+    var displayQueryResult = function (queryResult) {
+        if (queryResult) {
+            var data = JSON.parse(queryResult);
+            setName(data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME);
+            var url = "/logging?name=" + data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME;
+            var xhr_1 = new XMLHttpRequest();
+            xhr_1.open('post', url, true);
+            xhr_1.onreadystatechange = function () {
+                switch (xhr_1.status) {
+                    case 200:
+                        break;
+                    case 400:
+                        break;
+                }
+            };
+            xhr_1.onload = function () {
+            };
+            xhr_1.send();
+        }
     };
-    return Hello;
-}(React.Component));
-exports.Hello = Hello;
-ReactDOM.render(React.createElement(Hello, null), document.getElementById('root'));
+    return (React.createElement("div", null,
+        React.createElement(preamble_1.default, null),
+        React.createElement(queryForm_1.default, { reportCallback: displayQueryResult }),
+        React.createElement(nameReport_1.default, { reportData: name })));
+};
+ReactDOM.render(React.createElement(Main, null), document.getElementById('root'));
 
 
 /***/ }),
@@ -28659,10 +28664,37 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./web/components/ui/longLatInput.tsx":
-/*!********************************************!*\
-  !*** ./web/components/ui/longLatInput.tsx ***!
-  \********************************************/
+/***/ "./web/components/nameReport.tsx":
+/*!***************************************!*\
+  !*** ./web/components/nameReport.tsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var NameReport = function (props) {
+    var _a = react_1.useState(""), nameValue = _a[0], setValue = _a[1];
+    react_1.useEffect(function () {
+        console.log("detected");
+    }, [nameValue]);
+    return (React.createElement("div", null, props.reportData ? (React.createElement("p", null,
+        "These coordinates fall within the ",
+        React.createElement("strong", null, props.reportData),
+        " Community Health Service Area")) : (React.createElement("p", null, "Submit coordinates within Greater Victoria to see the corresponding Community Health Service Area.)"))));
+};
+exports.default = NameReport;
+
+
+/***/ }),
+
+/***/ "./web/components/preamble.tsx":
+/*!*************************************!*\
+  !*** ./web/components/preamble.tsx ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28685,20 +28717,79 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var LongLatInput = /** @class */ (function (_super) {
-    __extends(LongLatInput, _super);
-    function LongLatInput() {
+var Preamble = /** @class */ (function (_super) {
+    __extends(Preamble, _super);
+    function Preamble() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    LongLatInput.prototype.render = function () {
+    Preamble.prototype.render = function () {
         return (React.createElement("div", null,
-            React.createElement("h3", null, "A Simple React Component Example with Typescript"),
-            React.createElement("p", null, "This component shows the Logrocket logo."),
-            React.createElement("p", null, "For more info on Logrocket, please visit https://logrocket.com ")));
+            React.createElement("h3", null, "Find your Community Health Service Area by coordinates"),
+            React.createElement("p", null, "For example, (48.4251378, -123.3646335) will return \"Downtown Victora/Vic West\" "),
+            React.createElement("p", null, "Coordinate info for a location can be found by right-clicking in Goolge Maps")));
     };
-    return LongLatInput;
+    return Preamble;
 }(React.Component));
-exports.default = LongLatInput;
+exports.default = Preamble;
+
+
+/***/ }),
+
+/***/ "./web/forms/queryForm.tsx":
+/*!*********************************!*\
+  !*** ./web/forms/queryForm.tsx ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var QueryForm = function (_a) {
+    var reportCallback = _a.reportCallback;
+    var _b = react_1.useState("48.45862773341286"), latVal = _b[0], setLat = _b[1];
+    var _c = react_1.useState("-123.36126294595441"), longVal = _c[0], setLong = _c[1];
+    var onReceive = function (data) {
+        reportCallback(data);
+    };
+    var handleSubmit = function (event) {
+        event.preventDefault();
+        var url = "https://openmaps.gov.bc.ca/geo/pub/ows?\nservice=WFS&version=1.0.0\n&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326\n&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(" + longVal + "+" + latVal + "))\n&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson";
+        //const url: string = "https://";
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', url, true);
+        xhr.onreadystatechange = function () {
+            switch (xhr.status) {
+                case 200:
+                    onReceive(xhr.response);
+                    break;
+                case 400:
+                    break;
+            }
+        };
+        xhr.onload = function () {
+        };
+        xhr.send();
+        console.log("form submit: " + longVal + " " + latVal);
+    };
+    return (React.createElement("form", { onSubmit: handleSubmit },
+        React.createElement("div", null,
+            React.createElement("label", null,
+                "Latitude:",
+                React.createElement("input", { type: "number", value: latVal || '', onChange: function (e) {
+                        setLat(e.target.value);
+                    } }))),
+        React.createElement("div", null,
+            React.createElement("label", null,
+                "Longitude:",
+                React.createElement("input", { type: "number", value: longVal || '', onChange: function (e) {
+                        setLong(e.target.value);
+                    } }))),
+        React.createElement("input", { type: "submit", value: "Submit" })));
+};
+exports.default = QueryForm;
 
 
 /***/ })
