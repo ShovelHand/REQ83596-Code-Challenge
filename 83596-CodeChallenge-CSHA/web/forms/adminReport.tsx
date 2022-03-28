@@ -1,8 +1,10 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { isPropertySignature } from "typescript";
 
 export interface Props {
-    reportData: string;
+    totalCount: number;
+    lastFiveNames: any;
 }
 
 const AdminReport: React.FC<any> = (props) => {
@@ -14,7 +16,9 @@ const AdminReport: React.FC<any> = (props) => {
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    props.reportData = (xhr.response);
+                    const responseObj = JSON.parse(xhr.response);
+                    props.totalCount = parseInt(responseObj.count);
+                    props.lastFiveNames = responseObj.lastFiveNames;
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -32,6 +36,13 @@ const AdminReport: React.FC<any> = (props) => {
             <h3>Admin Section</h3>
             <p>Are you an admin? Honour system! Click the button to get a report.</p>
             <input type="submit" value="Get Report" />
+            <div>
+                {props.reportData ? (<p>Total Queries: <strong>{props.totalCount}</strong><br/>
+                Last five CHSA names querried: <strong>{props.lastFiveNames}</strong></p>
+                ) : (
+                    <p>Submit coordinates within Greater Victoria to see the corresponding Community Health Service Area.)</p>)
+                }
+            </div>
         </form>
     );
 }
