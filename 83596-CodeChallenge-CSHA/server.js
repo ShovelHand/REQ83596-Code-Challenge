@@ -19,7 +19,7 @@ const statsUpdates = (name) => {
     
     for(var regionName in lastFiveNames){
         count++;
-        newNameList.push(regionName);
+        newNameList.push(lastFiveNames[regionName]);
         if(count >= 4){
             break;
         }
@@ -37,7 +37,14 @@ var server = app.listen(app.get('port'), function () {
 });
 
 app.get("/logging", (req, res) => {
-    var data = `{"count": "${totalNames}", "lastFiveNames": "${lastFiveNames}"}`;
+    var namesList = "";
+    for (var name in lastFiveNames) {
+        namesList += lastFiveNames[name];
+        if (name !== lastFiveNames[lastFiveNames.length - 1]) {
+            namesList += ", ";
+        }
+    }
+    var data = `{"count": "${totalNames}", "lastFiveNames": "${namesList}"}`;
     return res.send(data);
 });
 
