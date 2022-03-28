@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 
-interface Lables {
+interface Props {
     reportCallback;
 }
 

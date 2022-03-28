@@ -12,7 +12,8 @@ var totalNames = 0;
 var lastFiveNames = [];
 
 const statsUpdates = (name) => {
-    var newNameList = [name];
+    var newNameList = [];
+    newNameList.push(name);
     var count = 0;
     totalNames++;
     

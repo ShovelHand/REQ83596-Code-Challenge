@@ -2,7 +2,8 @@
 import QueryForm from "./web/forms/queryForm";
 import Preamble from "./web/components/preamble";
 import NameReport from "./web/components/nameReport";
-import AdminReport from "./web/forms/adminReport";
+import AdminQuery from "./web/forms/adminqQuery";
+import AdminReport from "./web/components/adminReport";
 import * as React from "react";
 import { useState } from "react";
 
@@ -21,25 +22,27 @@ const Main: React.FC<any> = ({
         if (queryResult) {
             const data = JSON.parse(queryResult);
             setName(data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME);
-
+            //log resulting CHSA name in back-end
             const url = "/logging?name=" + data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME;
             const xhr = new XMLHttpRequest();
             xhr.open('post', url, true);
             xhr.onreadystatechange = () => {
                 switch (xhr.status) {
-                    case 200:
-                        
+                    case 200:                      
                         break;
                     case 400:
-
+                        console.error(xhr.response);
                         break;
                 }
             }
             xhr.onload = () => {
-
             }
             xhr.send();
         }
+    }
+
+    const displayAdminReport = (adminReportData) => {
+        setReport(adminReportData);
     }
 
         return (
@@ -47,7 +50,8 @@ const Main: React.FC<any> = ({
                 <Preamble />
                 <QueryForm reportCallback={displayQueryResult} />
                 <NameReport reportData={name}/>
-                <AdminReport/>
+                <AdminQuery reportCallback={displayAdminReport}/>
+                <AdminReport reportData={report}/>
             </div>
         );
     
