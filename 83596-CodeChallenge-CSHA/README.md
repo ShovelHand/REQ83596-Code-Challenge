@@ -8,7 +8,7 @@ This project requires NodeJS to be installed, and that npm commands can be run.
 - Clone the repo
 - Navigate to the root folder
 - Install the packages with ```npm install packages```
-- Run Webpack ```node_modules/.bin/webpack ./app.tsx --config webpack-config.js```
+- use ```npm run-script build``` to run Webpack
 - Start the server ```Node server.js```
 
 #### Set your browser to https://localhost:3000 to use the application.
