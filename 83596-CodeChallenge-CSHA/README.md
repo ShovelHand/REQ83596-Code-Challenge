@@ -1,6 +1,9 @@
 # 83596-CodeChallenge-CSHA
 
 This application is for the REQ83596 Code Challenge
+#### Unfortunately this project has a few shortcomings
+I tried to use technologies that are more relevant to the work I am currently doing, rather than what is more familiar to me, and suffered for the learning curve. Specifically there is no database connection, and server side tracking like last five names, times accessed, etc, only lives as long as the server does. Testing is not well developed at all. 
+I'll get 'em next time...
 
 ## Installation
 This project requires NodeJS to be installed, and that npm commands can be run. 
