@@ -41,7 +41,7 @@ const AdminQuery: React.FC<any> = ({reportCallback}) => {
         <form onSubmit={getAdminReport}>
             <h3>Admin Section</h3>
             <p>Are you an admin? Honour system! Click the button to get a report.</p>
-            <input type="submit" value="Get Report" />s
+            <input type="submit" value="Get Report" />
         </form>
     );
 }

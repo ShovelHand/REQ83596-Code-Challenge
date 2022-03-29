@@ -57,13 +57,14 @@
     <TypeScriptCompile Include="app.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="web\components\adminReport.tsx" />
     <TypeScriptCompile Include="web\components\nameReport.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\components\preamble.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="web\forms\adminReport.tsx" />
+    <TypeScriptCompile Include="web\forms\adminqQuery.tsx" />
     <TypeScriptCompile Include="web\forms\queryForm.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>

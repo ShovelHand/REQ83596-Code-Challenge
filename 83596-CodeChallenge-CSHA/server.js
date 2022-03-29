@@ -70,25 +70,25 @@ app.post("/logging", (req, res) => {
 
 });
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+//const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 
-async function main() {
-    const url = 'mongodb://127.0.0.1:27017';
-    MongoClient.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }, (err, client) => {
-        if (err) {
-            return console.log(err);
-        }
+//async function main() {
+//    const url = 'mongodb://127.0.0.1:27017';
+//    MongoClient.connect(url, {
+//        useNewUrlParser: true,
+//        useUnifiedTopology: true
+//    }, (err, client) => {
+//        if (err) {
+//            return console.log(err);
+//        }
 
-        // Specify database you want to access
-        const db = client.db('school');
+//        // Specify database you want to access
+//        const db = client.db('school');
 
-        console.log(`MongoDB Connected: ${url}`);
-    });
-}
+//        console.log(`MongoDB Connected: ${url}`);
+//    });
+//}
 
-main().catch(console.error);
+//main().catch(console.error);
