@@ -14,23 +14,18 @@ const QueryForm: React.FC<any> = ({reportCallback}) => {
         reportCallback(data);   
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (submitting) {
-            return;
-        }
-        setSubmitting(true);
+    const getData = (long: number, lat: number) => {
         const url: string = `https://openmaps.gov.bc.ca/geo/pub/ows?
 service=WFS&version=1.0.0
 &request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326
-&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${longVal}+${latVal}))
+&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(${long}+${lat}))
 &propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson`;
         const xhr = new XMLHttpRequest();
         xhr.open('post', url, true);
         xhr.onreadystatechange = () => {
             switch (xhr.status) {
                 case 200:
-                    
+
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -39,8 +34,19 @@ service=WFS&version=1.0.0
         }
         xhr.onload = () => {
             onReceive(xhr.response);
+            return xhr.response;
         }
         xhr.send();
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (submitting) {
+            return;
+        }
+        setSubmitting(true);
+        getData(longVal, latVal)
+      
         setTimeout(() => {
             setSubmitting(false);
         }, 500)
