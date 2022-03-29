@@ -37,6 +37,9 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="jest.config.ts">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -52,6 +55,7 @@
     <Folder Include="web\" />
     <Folder Include="web\components\" />
     <Folder Include="web\forms\" />
+    <Folder Include="__tests__\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx">
@@ -66,6 +70,9 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\forms\adminqQuery.tsx" />
     <TypeScriptCompile Include="web\forms\queryForm.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="__tests__\front-end.test.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
