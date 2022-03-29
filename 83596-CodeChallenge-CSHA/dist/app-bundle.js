@@ -99,18 +99,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var queryForm_1 = __webpack_require__(/*! ./web/forms/queryForm */ "./web/forms/queryForm.tsx");
 var preamble_1 = __webpack_require__(/*! ./web/components/preamble */ "./web/components/preamble.tsx");
 var nameReport_1 = __webpack_require__(/*! ./web/components/nameReport */ "./web/components/nameReport.tsx");
-var adminReport_1 = __webpack_require__(/*! ./web/forms/adminReport */ "./web/forms/adminReport.tsx");
+var adminqQuery_1 = __webpack_require__(/*! ./web/forms/adminqQuery */ "./web/forms/adminqQuery.tsx");
+var adminReport_1 = __webpack_require__(/*! ./web/components/adminReport */ "./web/components/adminReport.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 var Main = function (_a) {
-    var _b = react_1.useState(""), report = _b[0], setReport = _b[1];
-    var _c = react_1.useState(""), name = _c[0], setName = _c[1];
+    var _b = (0, react_1.useState)(""), report = _b[0], setReport = _b[1];
+    var _c = (0, react_1.useState)(""), name = _c[0], setName = _c[1];
     var displayQueryResult = function (queryResult) {
         if (queryResult) {
             var data = JSON.parse(queryResult);
             setName(data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME);
+            //log resulting CHSA name in back-end
             var url = "/logging?name=" + data.features[0].properties.CMNTY_HLTH_SERV_AREA_NAME;
             var xhr_1 = new XMLHttpRequest();
             xhr_1.open('post', url, true);
@@ -119,6 +121,7 @@ var Main = function (_a) {
                     case 200:
                         break;
                     case 400:
+                        console.error(xhr_1.response);
                         break;
                 }
             };
@@ -127,11 +130,15 @@ var Main = function (_a) {
             xhr_1.send();
         }
     };
+    var displayAdminReport = function (adminReportData) {
+        setReport(adminReportData);
+    };
     return (React.createElement("div", null,
         React.createElement(preamble_1.default, null),
         React.createElement(queryForm_1.default, { reportCallback: displayQueryResult }),
         React.createElement(nameReport_1.default, { reportData: name }),
-        React.createElement(adminReport_1.default, null)));
+        React.createElement(adminqQuery_1.default, { reportCallback: displayAdminReport }),
+        React.createElement(adminReport_1.default, { reportData: report })));
 };
 ReactDOM.render(React.createElement(Main, null), document.getElementById('root'));
 
@@ -28666,6 +28673,30 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./web/components/adminReport.tsx":
+/*!****************************************!*\
+  !*** ./web/components/adminReport.tsx ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var AdminReport = function (props) {
+    return (React.createElement("div", null, props.reportData ? (React.createElement("p", null,
+        "Total Queries: ",
+        React.createElement("strong", null, props.reportData.count),
+        React.createElement("br", null),
+        "Last five CHSA names querried: ",
+        React.createElement("strong", null, props.reportData.lastFiveNames))) : (React.createElement("p", null, "Submit coordinates within Greater Victoria to see the corresponding Community Health Service Area.)"))));
+};
+exports.default = AdminReport;
+
+
+/***/ }),
+
 /***/ "./web/components/nameReport.tsx":
 /*!***************************************!*\
   !*** ./web/components/nameReport.tsx ***!
@@ -28677,12 +28708,7 @@ if (false) {} else {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var NameReport = function (props) {
-    var _a = react_1.useState(""), nameValue = _a[0], setValue = _a[1];
-    react_1.useEffect(function () {
-        console.log("detected");
-    }, [nameValue]);
     return (React.createElement("div", null, props.reportData ? (React.createElement("p", null,
         "These coordinates fall within the ",
         React.createElement("strong", null, props.reportData),
@@ -28737,9 +28763,9 @@ exports.default = Preamble;
 
 /***/ }),
 
-/***/ "./web/forms/adminReport.tsx":
+/***/ "./web/forms/adminqQuery.tsx":
 /*!***********************************!*\
-  !*** ./web/forms/adminReport.tsx ***!
+  !*** ./web/forms/adminqQuery.tsx ***!
   \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -28748,8 +28774,15 @@ exports.default = Preamble;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var AdminReport = function (_a) {
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var AdminQuery = function (_a) {
+    var reportCallback = _a.reportCallback;
+    var _b = (0, react_1.useState)(false), submitting = _b[0], setSubmitting = _b[1];
     var getAdminReport = function (event) {
+        if (submitting) {
+            return;
+        }
+        setSubmitting(true);
         event.preventDefault();
         var url = "/logging";
         var xhr = new XMLHttpRequest();
@@ -28757,7 +28790,6 @@ var AdminReport = function (_a) {
         xhr.onreadystatechange = function () {
             switch (xhr.status) {
                 case 200:
-                    console.log(xhr.response);
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -28765,15 +28797,19 @@ var AdminReport = function (_a) {
             }
         };
         xhr.onload = function () {
+            reportCallback(JSON.parse(xhr.response));
         };
         xhr.send();
+        setTimeout(function () {
+            setSubmitting(false);
+        }, 500);
     };
     return (React.createElement("form", { onSubmit: getAdminReport },
         React.createElement("h3", null, "Admin Section"),
         React.createElement("p", null, "Are you an admin? Honour system! Click the button to get a report."),
-        React.createElement("input", { type: "submit", value: "Find Name" })));
+        React.createElement("input", { type: "submit", value: "Get Report" })));
 };
-exports.default = AdminReport;
+exports.default = AdminQuery;
 
 
 /***/ }),
@@ -28792,20 +28828,19 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var QueryForm = function (_a) {
     var reportCallback = _a.reportCallback;
-    var _b = react_1.useState("48.45862773341286"), latVal = _b[0], setLat = _b[1];
-    var _c = react_1.useState("-123.36126294595441"), longVal = _c[0], setLong = _c[1];
+    var _b = (0, react_1.useState)("48.45862773341286"), latVal = _b[0], setLat = _b[1];
+    var _c = (0, react_1.useState)("-123.36126294595441"), longVal = _c[0], setLong = _c[1];
+    var _d = (0, react_1.useState)(false), submitting = _d[0], setSubmitting = _d[1];
     var onReceive = function (data) {
         reportCallback(data);
     };
-    var handleSubmit = function (event) {
-        event.preventDefault();
-        var url = "https://openmaps.gov.bc.ca/geo/pub/ows?\nservice=WFS&version=1.0.0\n&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326\n&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(" + longVal + "+" + latVal + "))\n&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson";
+    var getData = function (long, lat) {
+        var url = "https://openmaps.gov.bc.ca/geo/pub/ows?\nservice=WFS&version=1.0.0\n&request=GetFeature&typeName=pub%3AWHSE_ADMIN_BOUNDARIES.BCHA_CMNTY_HEALTH_SERV_AREA_SP&srsname=EPSG%3A4326\n&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOINT(".concat(long, "+").concat(lat, "))\n&propertyName=CMNTY_HLTH_SERV_AREA_CODE%2CCMNTY_HLTH_SERV_AREA_NAME&outputFormat=application%2Fjson");
         var xhr = new XMLHttpRequest();
         xhr.open('post', url, true);
         xhr.onreadystatechange = function () {
             switch (xhr.status) {
                 case 200:
-                    onReceive(xhr.response);
                     break;
                 case 400:
                     console.error(xhr.response);
@@ -28813,9 +28848,21 @@ var QueryForm = function (_a) {
             }
         };
         xhr.onload = function () {
+            onReceive(xhr.response);
+            return xhr.response;
         };
         xhr.send();
-        console.log("form submit: " + longVal + " " + latVal);
+    };
+    var handleSubmit = function (event) {
+        event.preventDefault();
+        if (submitting) {
+            return;
+        }
+        setSubmitting(true);
+        getData(longVal, latVal);
+        setTimeout(function () {
+            setSubmitting(false);
+        }, 500);
     };
     return (React.createElement("form", { onSubmit: handleSubmit },
         React.createElement("div", null,

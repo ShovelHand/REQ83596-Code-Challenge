@@ -70,6 +70,9 @@ app.post("/logging", (req, res) => {
 
 });
 
+app.get("/test", async (req, res) => {
+    res.json({ message: "pass!" });
+});
 //const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
@@ -92,3 +95,4 @@ app.post("/logging", (req, res) => {
 //}
 
 //main().catch(console.error);
+module.exports = app;

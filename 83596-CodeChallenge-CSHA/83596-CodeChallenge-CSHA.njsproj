@@ -37,9 +37,6 @@
     <Content Include="index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="jest.config.ts">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -59,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="jest.config.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="web\components\adminReport.tsx" />

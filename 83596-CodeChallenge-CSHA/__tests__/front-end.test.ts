@@ -1,8 +1,9 @@
-const Server = require("../server");
 
-describe("Get all Articles", () => {
-    test("Get all Articles", async () => {
-        const articles = await Server.app.get("/logging").get('/api/v1/pets').then((res) => {
-            expect(res.statusCode).toBe(200);
-      
-    });
+const app = require("../server"); // Link to your server file
+const supertest = require("supertest");
+const request = supertest(app);
+
+it("gets the logging endpoint", async () => {
+    const response = await request.get("/logging");
+    expect(response.status).toBe(200);
+});
